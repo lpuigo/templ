@@ -1,0 +1,55 @@
+package main
+
+import "strings"
+
+templ button(name string, content string) {
+	<button value={ name }>{ content }</button>
+}
+
+templ booleanAttribute(hasNoShade bool) {
+  <hr noshade?={ hasNoShade } />
+}
+
+templ conditionalAttribute(hasClass bool) {
+  <hr style="padding: 10px"
+    if hasClass {
+      class="itIsTrue"
+    }
+  />
+}
+
+templ spreadAttributes(shouldBeUsed bool, attrs templ.Attributes) {
+  <p { attrs... }></p>
+  <hr
+    if shouldBeUsed {
+      { attrs... }
+    }
+  />
+}
+
+templ spreadAttributesUsage() {
+  @spreadAttributes(false, templ.Attributes{"data-testid": "paragraph", "name1":templ.KeyValue[string, bool]{"one", true}, "name2":templ.KeyValue[string, bool]{"two", false}})
+}
+
+type Person struct {
+	URL  string
+	Name  string
+}
+
+templ urlComponent(p Person) {
+  <a href={ templ.URL(p.URL) }>{ strings.ToUpper(p.Name) }</a>
+}
+
+script withParameters(a string, b string, c int) {
+	console.log(a, b, c);
+}
+
+script withoutParameters() {
+	alert("hello");
+}
+
+templ jsButton(text string) {
+	<button onClick={ withParameters("test", text, 123) } onMouseover={ withoutParameters() } type="button">{ text }</button>
+}
+
+// to be continued on : https://templ.guide/syntax-and-usage/expressions
