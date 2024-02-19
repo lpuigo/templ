@@ -13,6 +13,14 @@ import (
 //	http.ListenAndServe(":3000", nil)
 //}
 
+// To install templ package (if not already available locally)
+//
+// 		go install github.com/a-h/templ/cmd/templ@latest
+//
+// Add to current project
+//
+//		go get github.com/a-h/templ
+
 func main() {
 	ba := booleanAttribute(false)
 	ba.Render(context.Background(), os.Stdout)
