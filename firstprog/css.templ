@@ -1,0 +1,71 @@
+package main
+
+templ classButton(text string) {
+	<button class="button is-primary">{ text }</button>
+}
+
+// Class expression
+
+templ cssClassButton(text string, className string) {
+	<button class={ className }>{ text }</button>
+}
+
+// class with a array of values
+
+templ cssArrayClassButton(text string, className string) {
+	<button class={ "button", className }>{ text }</button>
+}
+
+// Dynamic class names
+
+css red1() {
+	background-color: #ff0000;
+}
+
+templ dynCssButton(text string, isPrimary bool) {
+	<button class={ "button", templ.KV("is-primary", isPrimary), templ.KV(red1(), isPrimary) }>{ text }</button>
+}
+
+// CSS elements
+
+templ page() {
+	<style type="text/css">
+		p {
+			font-family: sans-serif;
+		}
+		.button {
+			background-color: black;
+			foreground-color: white;
+		}
+	</style>
+	<p>
+		Paragraph contents.
+	</p>
+}
+
+
+// CSS components
+
+var red2 = "#ff0000"
+var blue = "#0000ff"
+
+css primaryClassName() {
+	background-color: #ffffff;
+	color: { red2 };
+}
+
+css className() {
+	background-color: #ffffff;
+	color: { blue };
+}
+
+templ cssCompButton(text string, isPrimary bool) {
+	<button class={ "button", className(), templ.KV(primaryClassName(), isPrimary) }>{ text }</button>
+}
+
+// CSS Middleware
+
+// c1 := className()
+// handler := NewCSSMiddleware(httpRoutes, c1)
+// http.ListenAndServe(":8000", handler)
+

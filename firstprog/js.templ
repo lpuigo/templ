@@ -1,0 +1,66 @@
+package main
+
+templ head() {
+	<head>
+		<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+	</head>
+}
+
+//
+
+// Script tags
+
+templ jsBody() {
+	<script>
+		const chart = LightweightCharts.createChart(document.body, { width: 400, height: 300 });
+		const lineSeries = chart.addLineSeries();
+		lineSeries.setData([
+				{ time: '2019-04-11', value: 80.01 },
+				{ time: '2019-04-12', value: 96.63 },
+				{ time: '2019-04-13', value: 76.64 },
+				{ time: '2019-04-14', value: 81.89 },
+				{ time: '2019-04-15', value: 74.43 },
+				{ time: '2019-04-16', value: 80.01 },
+				{ time: '2019-04-17', value: 96.63 },
+				{ time: '2019-04-18', value: 76.64 },
+				{ time: '2019-04-19', value: 81.89 },
+				{ time: '2019-04-20', value: 74.43 },
+		]);
+	</script>
+}
+
+// Script templates
+type TimeValue struct {
+	Time  string  `json:"time"`
+	Value float64 `json:"value"`
+}
+
+script graph(data []TimeValue) {
+	const chart = LightweightCharts.createChart(document.body, { width: 400, height: 300 });
+	const lineSeries = chart.addLineSeries();
+	lineSeries.setData(data);
+}
+
+templ graphPage(data []TimeValue) {
+	<html>
+		<head>
+			<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+		</head>
+		<body onload={ graph(data) }></body>
+	</html>
+}
+
+// Script
+
+script printToConsole(content string) {
+	console.log(content)
+}
+
+templ scriptPage(content string) {
+	<html>
+		<body>
+		  @printToConsole(content)
+		  @printToConsole(fmt.Sprintf("Again: %s", content))
+		</body>
+	</html>
+}

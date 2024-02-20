@@ -52,4 +52,97 @@ templ jsButton(text string) {
 	<button onClick={ withParameters("test", text, 123) } onMouseover={ withoutParameters() } type="button">{ text }</button>
 }
 
+
+
+// If / Switch / For
+
+templ login(isLoggedIn bool) {
+  if isLoggedIn {
+    <div>Welcome back!</div>
+  } else {
+    <input name="login" type="button" value="Log in"/>
+  }
+}
+
+
+
+templ userTypeDisplay(userType string) {
+	switch userType {
+		case "test":
+			<span>{ "Test user" }</span>
+		case "admin":
+			<span>{ "Admin user" }</span>
+		default:
+			<span>{ "Unknown user" }</span>
+	}
+}
+
+
+
+templ nameList(items []Person) {
+  <ul>
+  for _, item := range items {
+    <li>{ item.Name }</li>
+  }
+  </ul>
+}
+
+// Template composition
+
+templ showAll1() {
+	@left()
+	@middle()
+	@right()
+}
+
+templ left() {
+	<div>Left</div>
+}
+
+templ middle() {
+	<div>Middle</div>
+}
+
+templ right() {
+	<div>Right</div>
+}
+
+// Children
+
+templ showAllChildren() {
+	@wrapChildren() {
+		<div>Inserted from the top</div>
+	}
+}
+
+templ wrapChildren() {
+	<div id="wrapper">
+		{ children... }
+	</div>
+}
+
+
+
+// Components as parameters
+
+templ heading() {
+    <h1>Heading</h1>
+}
+
+templ layout(contents templ.Component) {
+	<div id="heading">
+		@heading()
+	</div>
+	<div id="contents">
+		@contents
+	</div>
+}
+
+templ paragraph(contents string) {
+	<p>{ contents }</p>
+}
+
+
+
+
 // to be continued on : https://templ.guide/syntax-and-usage/expressions
